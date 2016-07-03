@@ -1,0 +1,77 @@
+# OS junk files
+[Tt]humbs.db
+*.DS_Store
+*.db
+*.iml
+
+# Java
+*.class
+#*.jar
+*.war
+*.ear
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+.springBeans
+*.pydevproject
+.project
+.metadata
+Release/**
+Release/**/*
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+build_number_generation.properties
+local.properties
+build.properties
+project_path.xml
+.loadpath
+rebel.xml
+.externalToolBuilders/
+*.launch
+.cproject
+.buildpath
+
+# Netbeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+
+# Ant
+dist/
+build/
+
+# Maven
+**/target/
+target/
+[Bb]in/
+log/
+
+#Custom
+*.class
+bin/
+target/
+**/bin/
+**/build/
+**/target/
+[Rr]elease/
+#**/build.properties
