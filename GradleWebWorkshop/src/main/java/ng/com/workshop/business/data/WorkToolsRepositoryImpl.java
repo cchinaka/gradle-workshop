@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ng.com.workshop.business.data.jpa.WorkToolRepo;
 import ng.com.workshop.business.data.legacy.BaseRepo;
+import ng.com.workshop.business.messaging.PostMan;
 import ng.com.workshop.model.workshop.ToolShed;
 import ng.com.workshop.model.workshop.WorkTool;
 
@@ -34,6 +35,10 @@ public class WorkToolsRepositoryImpl implements WorkToolsRepository {
     @Autowired
     WorkToolRepo workToolRepo;
 
+    @Autowired
+    @Qualifier("postman")
+    PostMan postman;
+
 
     @Override
     public List<WorkTool> findWorkTools(long max, int count) {
@@ -50,6 +55,7 @@ public class WorkToolsRepositoryImpl implements WorkToolsRepository {
         LOG.info("attempting to insert into tool");
         tool = workToolRepo.save(tool);
         LOG.info("tool: {}", tool);
+        postman.sendMessage("workshop.queue", tool);
         return tool;
     }
 

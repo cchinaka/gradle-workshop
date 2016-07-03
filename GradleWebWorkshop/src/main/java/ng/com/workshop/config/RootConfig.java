@@ -29,8 +29,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @Configuration
-@ComponentScan(basePackages = { "ng.com.workshop" }, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
 @PropertySource("classpath:app.properties")
+@ComponentScan(basePackages = { "ng.com.workshop" }, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = { "ng.com.workshop.business.data.jpa" })
 public class RootConfig {
@@ -138,7 +138,5 @@ public class RootConfig {
     @Bean(name = "transactionManager")
     public JpaTransactionManager jpaTransactionManager() {
         return new JpaTransactionManager();
-        // JpaTransactionManager trxn = new JpaTransactionManager(emf);
-        // return trxn;
     }
 }

@@ -63,7 +63,9 @@ dependencies {
 	compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.2.2'	
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.5'	
 	//compile group: 'org.springframework.data', name: 'spring-data-rest-webmvc', version: '2.5.2.RELEASE'
-	compile group: 'org.apache.activemq', name: 'activemq-core', version: '5.7.0'
+	compile group: 'org.apache.activemq', name: 'activemq-core', version: '5.7.0'// https://mvnrepository.com/artifact/org.springframework/spring-jms
+	compile group: 'org.springframework', name: 'spring-jms', version: '4.3.0.RELEASE'
+	
 			
 	compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'	
 	runtime group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.12'
