@@ -64,14 +64,10 @@ dependencies {
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.5'	
 	//compile group: 'org.springframework.data', name: 'spring-data-rest-webmvc', version: '2.5.2.RELEASE'
 	compile group: 'org.apache.activemq', name: 'activemq-core', version: '5.7.0'
-	
-	
-		
+			
 	compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'	
 	runtime group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.12'
 	runtime group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.12'
-	
-		
 	
 	providedCompile "javax.servlet:javax.servlet-api:3.1.0"
     providedCompile "javax.servlet.jsp:jsp-api:2.1"
@@ -80,8 +76,7 @@ dependencies {
 	testCompile group: 'com.github.stefanbirkner', name: 'system-rules', version: '1.2.0'
 	testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:1.10.19"
-	testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.0.RELEASE'
-	
+	testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.0.RELEASE'	
 }
 
 task wrapper(type: Wrapper){
