@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -36,6 +37,9 @@ public class WorkToolsRepositoryImpl implements WorkToolsRepository {
     WorkToolRepo workToolRepo;
 
     @Autowired
+    SimpMessageSendingOperations messenger;
+
+    @Autowired
     @Qualifier("postman")
     PostMan postman;
 
@@ -56,7 +60,26 @@ public class WorkToolsRepositoryImpl implements WorkToolsRepository {
         tool = workToolRepo.save(tool);
         LOG.info("tool: {}", tool);
         postman.sendMessage("workshop.queue", tool);
+        sendMessage(tool);
         return tool;
+    }
+
+
+    private void sendMessage(WorkTool tool) {
+        Thread mythread = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    sleep(10000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                messenger.convertAndSend("/topic/registration", tool);
+            }
+        };
+        mythread.start();
     }
 
 

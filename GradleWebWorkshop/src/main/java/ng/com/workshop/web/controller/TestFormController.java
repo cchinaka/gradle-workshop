@@ -10,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ng.com.workshop.business.data.WorkToolsRepository;
 import ng.com.workshop.model.workshop.WorkTool;
+import ng.com.workshop.web.stomp.StompController;
 
 
 @Controller
@@ -24,6 +26,9 @@ public class TestFormController {
 
     @Autowired
     WorkToolsRepository repo;
+
+    @Autowired
+    StompController stompController;
 
 
     @RequestMapping(value = "register", method = RequestMethod.GET)
@@ -44,10 +49,23 @@ public class TestFormController {
             file.createNewFile();
             // pic.transferTo(file);
             // repo.saveFile(pic);
-            repo.register(worktool);
+            worktool = repo.register(worktool);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "redirect:/hellothyme";
+    }
+
+
+    @RequestMapping(value = "register-rest", method = RequestMethod.POST)
+    public @ResponseBody WorkTool processRegistrationWorkTool(WorkTool worktool) throws Exception {
+        try {
+            LOG.info("Doing the registration now...tool: {}", worktool);
+            worktool = repo.register(worktool);
+            stompController.handleRegistrationFeedback(worktool);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return worktool;
     }
 }

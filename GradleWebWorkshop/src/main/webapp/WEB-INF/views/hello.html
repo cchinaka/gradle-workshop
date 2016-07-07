@@ -3,9 +3,55 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Workshop</title>
-<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"></link>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/resources/css/style.css}"></link>
 </head>
-<body>Welcome Thyme<br/>
-<a th:href="@{/forms/register}">Register</a> | <a th:href="@{/worktools}">Worktools</a>
+<body>
+	<div class="message-board">nothing to display</div>
+	<hr />
+	Welcome Thyme
+	<br />
+	<a th:href="@{/forms/register}">Register</a> |
+	<a th:href="@{/worktools}">Worktools</a>
+
+	<script src="https://code.jquery.com/jquery-2.2.4.js"
+		integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var stompCtrl = {
+				stomp : null,
+				settings : {
+					url : null,
+					topic : null
+				},
+				init : function(options) {
+					this.settings = $.extend(this.settings, options);
+					this.stomp = Stomp.over(new SockJS(this.settings.url));
+					this.connect();
+				},
+				connect : function() {
+					var self = stompCtrl;
+					self.stomp.connect({}, function(frame) {
+						console.log("connected. frame: ", frame);
+						self.stomp.subscribe(self.settings.topic, self.handleSavedTool);
+					});
+				},
+				handleSavedTool : function(frame) {
+					console.log("message: ", frame);
+					$(".message-board").html(frame.body);
+				}
+			};
+			stompCtrl.init({
+				url : "http://" + window.location.host + "/GradleWebWorkshop/hello",
+				topic : '/topic/registration'
+			});
+		});
+	</script>
 </body>
 </html>
