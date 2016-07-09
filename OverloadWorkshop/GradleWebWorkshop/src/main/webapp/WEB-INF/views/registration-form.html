@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Register</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/resources/css/style.css}"></link>
+</head>
+<body>
+	<form method="POST" th:object="${worktool}"
+		enctype="multipart/form-data" id="workform">
+		<div>
+			<label>Code</label> <input type="text" th:field="*{code}" />
+		</div>
+		<div>
+			<label>Description</label> <input type="text"
+				th:field="*{description}" />
+		</div>
+		<div>
+			<label>Longitude</label> <input type="text" th:field="*{longitude}" />
+		</div>
+		<div>
+			<label>Latitude</label> <input type="text" th:field="*{latitude}" />
+		</div>
+		<div>
+			<label>File</label> <input type="file" name="profilePicture"
+				accept="image/jpeg,image/png,image/gif" />
+		</div>
+		<div>
+			<button type="submit">Save</button>
+		</div>
+		<div>
+			<button type="button" id="ajax-save">Save Ajax</button>
+		</div>
+		<a href="javascript:makeWebSocketCall();">call socket</a>
+		<div id="socket">Hello</div>
+	</form>
+
+	<script src="https://code.jquery.com/jquery-2.2.4.js"
+		integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var url = "http://" + window.location.host
+					+ "/GradleWebWorkshop/hello";
+			var socket = new SockJS(url);
+			var stomp = Stomp.over(socket);
+			var payload = "Hello my dear";
+			stomp.connect({}, function(frame) {
+				console.log("frame: ", frame);
+				stomp.subscribe('/topic/greetings', function(msg) {
+					console.log("message: ", msg);
+				});
+				stomp.subscribe('/app/hello-sub', function(msg) {
+					console.log("from hello-sub: ", msg);
+				});
+				stomp.send("/app/hello", {}, payload);
+			});
+
+			$("#ajax-save").click(function() {
+				$.post('register-rest', $('#workform').serialize());
+			});
+		});
+	</script>
+</body>
+</html>

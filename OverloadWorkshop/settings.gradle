@@ -1,0 +1,2 @@
+//include 'GradleWebWorkshop'
+include 'WorkshopEntity', 'WorkshopBusiness', 'GradleWebWorkshop'
